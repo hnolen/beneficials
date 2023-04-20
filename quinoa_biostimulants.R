@@ -275,9 +275,8 @@ ggarrange(tb_lalvwater, bg_lalvwater, nrow = 1, ncol =2, common.legend = TRUE, l
 
 #########======================================================##########
 
-##ABOVEGROUND BIOMASS MODEL - as of 11/16/22 having an issue with a significant levene's
-#test even after transforming
-#also has an effect of block
+##ABOVEGROUND BIOMASS MODEL 
+
 
 #########======================================================##########
 
@@ -336,127 +335,6 @@ shapiro.test(ag_dat$trans_resids) # p-value = 0.003
 leveneTest(trans_ag_biomass ~ treatment, data = ag_dat) #p = 0.02
 
 
-
-##ABOVEGROUND BIOMASS - attempting to adjust for block (exp_rep) effect
-
-#calculate means
-grand_mean<- mean(ag_dat$ag_biomass)  #Grand Mean = 0.03521141
-block_means<- aggregate(ag_dat$ag_biomass, list(ag_dat$exp_rep),mean)
-
-
-#Block(exp_rep)        mean
-#1       1 0.03044643
-#2       2 0.02537805
-#3       3 0.04809615
-
-
-#make function to calculate difference between block means and grand mean (lect 8 pg 13 for reference)
-calc_diff <- function(x) {grand_mean-x}
-mean_diff <-calc_diff(block_means$x)
-mean_diff_df<-data.frame(block_means$Group.1, mean_diff)
-names(mean_diff_df)[1:2] <- c("Block","Mean_diff")
-
-
-#Block  Mean_diff
-#1     1  0.004764981
-#2     2  0.009833361
-#3     3 -0.012884744
-
-### Apply change to data (make new col in data) in Excel (=AUC+Mean_dif) new col called ag_bl_adj (rounded to 2nd dec) ###
-#re-impt data set 
-
-
-
-
-
-
-
-##REDOING ABOVEGROUND BIOMASS MODEL WITH BLOCK ADJUSTED VALUES
-ag_mod<-lm(ag_bl_adj ~ stress*inoculant*exp_rep, ag_dat)
-
-Anova(ag_mod) #stress p < 0.001
-
-
-
-##high effect of block (exp_rep) - analyze separately
-bg1<-subset(bg_dat, exp_rep == "1")
-bg2<-subset(bg_dat, exp_rep == "2")
-bg3<-subset(bg_dat, exp_rep == "3")
-
-
-bg1_mod<-lm(bg_biomass ~ stress*inoculant, bg1)
-Anova(bg1_mod) #stress p 0.08, inoculant p = 0.47
-
-bg2_mod<-lm(bg_biomass ~ stress*inoculant, bg2)
-Anova(bg2_mod) #stress p 0.02, inoculant p = 0.54
-
-bg3_mod<-lm(bg_biomass ~ stress*inoculant, bg3)
-Anova(bg3_mod) #stress p < 0.01, inoculant p = 0.93
-
-
-
-##ABOVEGROUND BIOMASS - assumption checking
-ag_dat$resids<-residuals(ag_mod)
-ag_dat$preds<-predict(ag_mod)
-ag_dat$sq_preds<-ag_dat$preds^2
-plot(resids ~ preds, data = ag_dat) # looks a little like a funnel
-
-#shapiro wilk - Tests for normality of residuals
-shapiro.test(ag_dat$resids) # p-value = 0.008
-
-
-#levene's test - Tests for homogeneity of variance
-#library(car)
-leveneTest(ag_bl_adj ~ treatment, data = ag_dat) # p-value = 0.01
-
-
-
-##ABOVEGROUND BIOMASS -  - square root transformation
-ag_dat$trans_ag_biomass<-sqrt(0.5+ag_dat$ag_bl_adj)
-
-#ABOVEGROUND BIOMASS - TRANSFORMED MODEL
-trans_agmod<-lm(trans_ag_biomass ~ stress*inoculant + exp_rep, ag_dat)
-Anova(trans_agmod) #stress p < 0.001 
-
-
-
-#transformed shapiro wilk
-ag_dat$trans_resids<-residuals(trans_agmod)
-ag_dat$trans_preds<-predict(trans_agmod)
-ag_dat$trans_sq_preds<-ag_dat$trans_preds^2
-plot(trans_resids ~ trans_preds, data = ag_dat) # looks like a funnel
-
-#shapiro wilk - Tests for normality of residuals
-shapiro.test(ag_dat$trans_resids) # p-value = 0.01 
-
-leveneTest(trans_ag_biomass ~ treatment, data = ag_dat) #p = 0.01
-
-
-##ABOVEGROUND BIOMASS - transform again - square root transformation
-ag_dat$trans2_ag_biomass<-sqrt(0.5+ag_dat$trans_ag_biomass)
-
-#ABOVEGROUND BIOMASS - TRANSFORMED MODEL
-trans2_agmod<-lm(trans2_ag_biomass ~ stress*inoculant + exp_rep, ag_dat)
-Anova(trans2_agmod) #stress p < 0.001 
-
-#looking just at stress
-ag_stress_mod<-lm(trans2_ag_biomass ~ stress + exp_rep, ag_dat)
-Anova(ag_stress_mod)
-tuk<-HSD.test(ag_stress_mod, "stress")
-
-
-
-
-#transformed shapiro wilk
-ag_dat$trans2_resids<-residuals(trans2_agmod)
-ag_dat$trans2_preds<-predict(trans2_agmod)
-ag_dat$trans2_sq_preds<-ag_dat$trans2_preds^2
-plot(trans2_resids ~ trans2_preds, data = ag_dat) # looks like a funnel
-
-#shapiro wilk - Tests for normality of residuals
-shapiro.test(ag_dat$trans2_resids) # p-value = 0.02 
-
-leveneTest(trans2_ag_biomass ~ treatment, data = ag_dat) #p = 0.01
 
 
 # Have to do a Kruskal-Wallis test since we have the issue of a significant levene's test
@@ -534,7 +412,7 @@ median(ag_dr_w$ag_biomass) # 0.0095
 
 #########======================================================##########
 
-##BELOWGROUND BIOMASS MODEL - effect of block
+##BELOWGROUND BIOMASS MODEL 
 
 #########======================================================##########
 
@@ -562,83 +440,6 @@ leveneTest(bg_biomass ~ treatment, data = bg_dat) # p-value = 0.22
 
 
 
-
-
-#Look at Blocks - Box plot
-boxplot(spad ~ exp_rep, spad_dat, main = "The Effect of Block on SPAD",
-        xlab="Block (Day)", ylab= "SPAD")
-boxplot(ag_biomass ~ exp_rep, ag_dat, main = "The Effect of Block on Aboveground biomass",
-        xlab="Block (Day)", ylab= "Aboveground biomass (g)")
-boxplot(bg_biomass ~ exp_rep, bg_dat, main = "The Effect of Block on Belowground biomass",
-        xlab="Block (Day)", ylab= "Belowground biomass (g)")
-
-
-
-
-
-##BELOWGROUND BIOMASS - attempting to adjust for block (exp_rep) effect
-
-
-
-#calculate means
-grand_mean<- mean(bg_dat$bg_biomass)  #Grand Mean = 0.03521141
-block_means<- aggregate(bg_dat$bg_biomass, list(bg_dat$exp_rep),mean)
-
-
-#Block(exp_rep)        mean
-#1       1 0.04636071
-#2       2 0.01551951
-#3       3 0.02139231
-
-
-#make function to calculate difference between block means and grand mean (lect 8 pg 13 for reference)
-calc_diff <- function(x) {grand_mean-x}
-mean_diff <-calc_diff(block_means$x)
-mean_diff_df<-data.frame(block_means$Group.1, mean_diff)
-names(mean_diff_df)[1:2] <- c("Block","Mean_diff")
-
-
-#Block  Mean_diff
-#1     1 -0.017200312
-#2     2  0.013640890
-#3     3  0.007768095
-
-### Apply change to data (make new col in data) in Excel (=AUC+Mean_dif) new col called bg_bl_adj (rounded to 2nd dec) ###
-#re-impt data set 
-
-
-
-##REDOING BELOWGROUND BIOMASS MODEL WITH BLOCK ADJUSTED VALUES
-bg_mod<-lm(bg_bl_adj ~ stress*inoculant + exp_rep, bg_dat)
-
-Anova(bg_mod) #stress p = 0.005
-
-##looking just at stress
-bg_stress_mod<-lm(bg_bl_adj ~ stress + exp_rep, bg_dat)
-Anova(bg_stress_mod)
-tuk<-HSD.test(bg_stress_mod, "stress")
-
-
-##Comparing microbes vs water in nutrient, drought, and no stress
-mw_bg<-subset(bg_dat, inoculant != "Lalrise")
-
-mw_bg_mod<-lm(bg_biomass ~ inoculant*stress + exp_rep, mw_bg)
-Anova(mw_bg_mod) # inoculant p = 0.3, stress p = 0.001
-
-
-##Comparing Lalrise vs water in nutrient, drought, and no stress
-lal_bg<-subset(bg_dat, inoculant == "Lalrise")
-w_bg<-subset(bg_dat, inoculant == "a1water")
-lal_w_bg<-rbind(lal_bg, w_bg)
-
-lalw_bg_mod<-lm(bg_bl_adj ~ inoculant*stress + exp_rep, lal_w_bg)
-Anova(lalw_bg_mod) # inoculant p = 0.2, stress p = 0.4
-
-ggplot(lal_w_tb, aes(x = stress, y = tot_biomass, fill = inoculant)) +
-  geom_boxplot()
-
-ggplot(mw_tot, aes(x = stress, y = tot_biomass, fill = inoculant)) +
-  geom_boxplot()
 
 
 ##plotting  lalrise vs water under stress
