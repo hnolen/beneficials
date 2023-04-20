@@ -17,40 +17,18 @@ library(ggsignif)
 
 #make sure everything is numeric
 spad_dat$spad<-as.numeric(spad_dat$spad)
-spad_dat$spad_bl_adj<-as.numeric(spad_dat$spad_bl_adj)
+
 
 tb_dat$tot_biomass<-as.numeric(tb_dat$tot_biomass)
 
 ag_dat$ag_biomass<-as.numeric(ag_dat$ag_biomass)
-ag_dat$ag_bl_adj<-as.numeric(ag_dat$ag_bl_adj)
+
 
 bg_dat$bg_biomass<-as.numeric(bg_dat$bg_biomass)
-bg_dat$bg_bl_adj<-as.numeric(bg_dat$bg_bl_adj)
 
 
 
 
-
-
-#### Root shoot ratio
-rs_mod<-lm(root_shoot ~ stress*inoculant + exp_rep, root_shoot_dat)
-Anova(rs_mod)
-
-##Root shoot - assumption checking
-#need to check if these models fit ANOVA assumptions: shapiro wilks, levene's test (this is assessing experiments separately so there is no blocking factor)
-#resids x preds plot, generate resids for SW test:
-root_shoot_dat$resids<-residuals(rs_mod)
-root_shoot_dat$preds<-predict(rs_mod)
-root_shoot_dat$sq_preds<-root_shoot_dat$preds^2
-plot(resids ~ preds, data = root_shoot_dat) # 
-
-#shapiro wilk - Tests for normality of residuals
-shapiro.test(root_shoot_dat$resids) # p-value < 0.001
-
-
-#levene's test - Tests for homogeneity of variance
-#library(car)
-leveneTest(root_shoot ~ treatment, data = root_shoot_dat) # p-value = 0.18
 
 
 
@@ -62,58 +40,23 @@ leveneTest(root_shoot ~ treatment, data = root_shoot_dat) # p-value = 0.18
 
 spad_mod<-lm(spad ~ stress*inoculant*exp_rep, spad_dat)
 
-Anova(spad_mod) ##high effect of stress and exp_rep
-
-p_inoc<-pf(0.2746/1.9243,4,4,lower.tail= FALSE) # p = 0.95
-p_block<-pf(23.5686/1.0556,1,6,lower.tail=FALSE) #p = 0.003
-
-
-
-##high effect of block (exp_rep) - analyze separately
-spad1<-subset(spad_dat, exp_rep == "1")
-spad2<-subset(spad_dat, exp_rep == "2")
-spad3<-subset(spad_dat, exp_rep == "3")
-
-
-spad1_mod<-lm(spad ~ stress*inoculant, spad1)
-Anova(spad1_mod) #stress p < 0.001, inoculant p = 0.59
-
-spad2_mod<-lm(spad ~ stress*inoculant, spad2)
-Anova(spad2_mod) #stress p < 0.001, inoculant p = 0.47
-
-spad3_mod<-lm(spad ~ stress*inoculant, spad3)
-Anova(spad3_mod) #stress p < 0.001, inoculant p = 0.13
-
-
+Anova(spad_mod) ##stress p < 0.001
 
 ##SPAD - assumption checking
 #need to check if these models fit ANOVA assumptions: shapiro wilks, levene's test (this is assessing experiments separately so there is no blocking factor)
 #resids x preds plot, generate resids for SW test:
-spad2$resids<-residuals(spad2_mod)
-spad2$preds<-predict(spad2_mod)
-spad2$sq_preds<-spad2$preds^2
-plot(resids ~ preds, data = spad2) # looks fine
+spad$resids<-residuals(spad_mod)
+spad$preds<-predict(spad_mod)
+spad$sq_preds<-spad$preds^2
+plot(resids ~ preds, data = spad) # 
 
-spad3$resids<-residuals(spad3_mod)
-spad3$preds<-predict(spad3_mod)
-spad3$sq_preds<-spad3$preds^2
-plot(resids ~ preds, data = spad3)
+#test for normality
+shapiro.test(spad$resids) # p-value = 0.2
 
-shapiro.test(spad1$resids) # p-value = 0.057
-shapiro.test(spad2$resids) # p-value = 0.66
-shapiro.test(spad3$resids) # p-value = 0.15
-
-spad1$resids<-residuals(spad1_mod)
-spad1$preds<-predict(spad1_mod)
-spad1$sq_preds<-spad1$preds^2
-plot(resids ~ preds, data = spad1)
+#test for homogeneity of variance
+leveneTest(spad ~ treatment, data = spad_dat) # p-value = 0.07
 
 
-#levene's test - Tests for homogeneity of variance
-#library(car)
-leveneTest(spad ~ treatment, data = spad1) # p-value = 0.7
-leveneTest(spad ~ treatment, data = spad2) #p = 0.38
-leveneTest(spad ~ treatment, data = spad3) # p = 0.623
 
 
 
@@ -167,22 +110,6 @@ p_lalvwater<-ggplot(lal_w_spad, aes(x=stress, y = spad, fill = inoculant)) +
 tot_mod<-lm(tot_biomass ~ stress*inoculant*exp_rep, tb_dat)
  
 Anova(tot_mod) #stress p < 0.001
-
-
-##high effect of block (exp_rep) - analyze separately
-tb1<-subset(tb_dat, exp_rep == "1")
-tb2<-subset(tb_dat, exp_rep == "2")
-tb3<-subset(tb_dat, exp_rep == "3")
-
-
-tb1_mod<-lm(tot_biomass ~ stress*inoculant, tb1)
-Anova(tb1_mod) #stress p < 0.004, inoculant p = 0.56
-
-tb2_mod<-lm(tot_biomass ~ stress*inoculant, tb2)
-Anova(tb2_mod) #stress p < 0.001, inoculant p = 0.57
-
-tb3_mod<-lm(tot_biomass ~ stress*inoculant, tb3)
-Anova(tb3_mod) #stress p < 0.001, inoculant p = 0.67
 
 
 
@@ -282,22 +209,7 @@ ggarrange(tb_lalvwater, bg_lalvwater, nrow = 1, ncol =2, common.legend = TRUE, l
 
 ag_mod<-lm(ag_biomass ~ stress*inoculant*exp_rep, ag_dat)
 
-Anova(ag_mod) #high effect of stress, exp_rep p = 0.003
-
-##high effect of block (exp_rep) - analyze separately
-ag1<-subset(ag_dat, exp_rep == "1")
-ag2<-subset(ag_dat, exp_rep == "2")
-ag3<-subset(ag_dat, exp_rep == "3")
-
-
-ag1_mod<-lm(ag_biomass ~ stress*inoculant, ag1)
-Anova(ag1_mod) #stress p < 0.004, inoculant p = 0.59
-
-ag2_mod<-lm(ag_biomass ~ stress*inoculant, ag2)
-Anova(ag2_mod) #stress p < 0.001, inoculant p = 0.62
-
-ag3_mod<-lm(ag_biomass ~ stress*inoculant, ag3)
-Anova(ag3_mod) #stress p < 0.001, inoculant p = 0.61
+Anova(ag_mod) #stress p< 0.001
 
 
 ##ABOVEGROUND BIOMASS - assumption checking
@@ -319,7 +231,7 @@ ag_dat$trans_ag_biomass<-sqrt(0.5+ag_dat$ag_biomass)
 
 #ABOVEGROUND BIOMASS - TRANSFORMED MODEL
 trans_agmod<-lm(trans_ag_biomass ~ stress*inoculant + exp_rep, ag_dat)
-Anova(trans_agmod) #stress p < 0.001 exp_rep p = 0.003
+Anova(trans_agmod) #stress p < 0.001 
 
 
 
@@ -480,28 +392,13 @@ wilt_dr_dat<- subset(wilt_dat, stress == "drought")
 kruskal.test(wilt_cat ~ inoculant, wilt_dr_dat) #p = 0.9
 
 
+#########======================================================##########
+
+##Visualizing data
+
+#########======================================================##########
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##visualizing some of the data
 p1<-ggplot(ag_dat, aes(x=inoculant, y = ag_biomass, fill = stress)) +
   geom_boxplot() +
   theme_classic() 
@@ -602,25 +499,6 @@ p_for_anissa<-ggplot(n_l_w_dat, aes(x=stress, y = spad, fill = inoculant)) +
   theme(legend.title = element_text(size =18, face = "bold")) +
   scale_fill_discrete(labels = c("Sterile water", "Lalrise Start SC"))
 
-dr_sub$treatment<-as.factor(dr_sub$treatment)
-DunnettTest(dr_sub$spad, dr_sub$treatment) #NS
-
-n_sub$treatment<-as.factor(n_sub$treatment)
-DunnettTest(n_sub$spad, n_sub$treatment) #
-
-
-'''
-                                                   diff     lwr.ci    upr.ci    pval    
-None-Commercial-a1None-sterile water         -2.1636364 -10.784594  6.457321 0.98804    
-None-NF-a1None-sterile water                 -3.4840909 -11.923534  4.955352 0.82581    
-None-PSB-a1None-sterile water                -0.8028409  -8.721696  7.116014 0.99999    
-None-PSB_NF-a1None-sterile water             -0.3157576  -8.341432  7.709917 1.00000    
-Nutrient-Commercial-a1None-sterile water    -10.3876623 -18.533701 -2.241623 0.00582 ** 
-Nutrient-NF-a1None-sterile water            -12.2398601 -20.522608 -3.957112 0.00089 ***
-Nutrient-PSB-a1None-sterile water           -13.8007576 -22.240201 -5.361315 0.00015 ***
-Nutrient-PSB_NF-a1None-sterile water        -15.3590909 -23.798534 -6.919648 1.9e-05 ***
-Nutrient-sterile water-a1None-sterile water -17.7674242 -26.206867 -9.327981 5.9e-07 ***
-'''
 
 
 ##visualizing spad values across inoculants from nutrient stress + none dataset
@@ -646,13 +524,6 @@ Anova(n_tb_mod) #stress p < 0.001
 
 
 
-DunnettTest(dr_sub$tot_biomass, dr_sub$treatment) #NS
-
-
-DunnettTest(n_sub$tot_biomass, n_sub$treatment) #NS
-
-
-
 
 #aboveground biomass models
 dr_ab_mod<-lm(ag_bl_adj ~ stress*inoculant + exp_rep, dr_sub)
@@ -660,22 +531,6 @@ Anova(dr_ab_mod) # stress p < 0.001
 
 n_ab_mod<-lm(ag_bl_adj ~ stress*inoculant + exp_rep, n_sub)
 Anova(n_ab_mod) #stress p < 0.001
-
-
-
-DunnettTest(dr_sub$ag_bl_adj, dr_sub$treatment) #
-
-'''
-Drought-Commercial-a1None-sterile water    -0.019698824 -0.040277745  0.0008800976 0.0675 .  
-Drought-NF-a1None-sterile water            -0.021465074 -0.041699468 -0.0012306786 0.0320 *  
-Drought-PSB-a1None-sterile water           -0.026427574 -0.046661968 -0.0061931786 0.0040 ** 
-Drought-PSB_NF-a1None-sterile water        -0.025823529 -0.045748984 -0.0058980747 0.0044 ** 
-Drought-sterile water-a1None-sterile water -0.027382353 -0.047307808 -0.0074568982 0.0021 ** 
-'''
-
-
-
-DunnettTest(n_sub$ag_bl_adj, n_sub$treatment) #NS
 
 
 
@@ -815,133 +670,6 @@ p16<-ggplot(n_sub, aes(x=inoculant, y = bg_biomass, fill = stress)) +
 
 
 
-##subsetting all three stress treatments for a one way ANOVA
-d_sub<-subset(ben_dat, stress == "drought")
-nu_sub<-subset(ben_dat, stress == "nutrient")
-w_sub<-subset(ben_dat, stress == "none")
-
-#spad models
-d_spad_mod<-lm(spad_bl_adj ~ inoculant + exp_rep, d_sub)
-Anova(dr_spad_mod) #NS
-
-nu_spad_mod<-lm(spad_bl_adj ~ inoculant + exp_rep, nu_sub)
-Anova(nu_spad_mod) #NS
-
-w_spad_mod<-lm(spad_bl_adj ~ inoculant + exp_rep, w_sub)
-Anova(w_spad_mod) #NS
-
-d_sub$inoculant<-as.factor(d_sub$inoculant)
-DunnettTest(d_sub$spad_bl_adj, d_sub$inoculant) #NS
-
-nu_sub$inoculant<-as.factor(nu_sub$inoculant)
-DunnettTest(nu_sub$spad_bl_adj, nu_sub$inoculant) #lalrise vs water p = 0.054
-
-w_sub$inoculant<-as.factor(w_sub$inoculant)
-DunnettTest(w_sub$spad_bl_adj, w_sub$inoculant) #NS
-
-
-#total biomass models
-
-d_tb_mod<-lm(tot_biomass ~ inoculant + exp_rep, d_sub)
-Anova(d_tb_mod) #NS
-
-nu_tb_mod<-lm(tot_biomass ~ inoculant + exp_rep, nu_sub)
-Anova(nu_tb_mod) #NS
-
-w_tb_mod<-lm(tot_biomass ~ inoculant + exp_rep, w_sub)
-Anova(w_tb_mod) #NS
-
-
-
-DunnettTest(d_sub$tot_biomass, d_sub$treatment) #NS
-
-
-DunnettTest(nu_sub$tot_biomass, nu_sub$treatment) #NS
-
-
-DunnettTest(w_sub$tot_biomass, w_sub$treatment) #NS
-
-
-#aboveground biomass models
-
-d_ab_mod<-lm(ag_bl_adj ~ inoculant + exp_rep, d_sub)
-Anova(d_ab_mod) #NS
-
-nu_ab_mod<-lm(ag_bl_adj ~ inoculant + exp_rep, nu_sub)
-Anova(nu_ab_mod) #NS
-
-w_ab_mod<-lm(ag_bl_adj ~ inoculant + exp_rep, w_sub)
-Anova(w_ab_mod) #NS
-
-
-
-DunnettTest(d_sub$ag_bl_adj, d_sub$treatment) #NS
-
-
-DunnettTest(nu_sub$ag_bl_adj, nu_sub$treatment) #NS
-
-
-DunnettTest(w_sub$ag_bl_adj, w_sub$treatment) #NS
-
-
-#belowground biomass models
-
-d_bg_mod<-lm(bg_bl_adj ~ inoculant + exp_rep, d_sub)
-Anova(d_bg_mod) #NS
-
-nu_bg_mod<-lm(bg_bl_adj ~ inoculant + exp_rep, nu_sub)
-Anova(nu_bg_mod) #NS
-
-w_bg_mod<-lm(bg_bl_adj ~ inoculant + exp_rep, w_sub)
-Anova(w_bg_mod) #NS
-
-
-DunnettTest(d_sub$bg_bl_adj, d_sub$treatment) #NS
-
-
-DunnettTest(nu_sub$bg_bl_adj, nu_sub$treatment) #NS
-
-
-DunnettTest(w_sub$bg_bl_adj, w_sub$treatment) #NS
-
-
-
-
-
-
-
-##want to do a dunnets test to compare all inoculum treatments to the control
-ben_dat$treatment<-as.factor(ben_dat$treatment)
-ben_dat$inoculant<-as.factor(ben_dat$inoculant)
-DunnettTest(ben_dat$spad, ben_dat$treatment)
-
-#SPAD DUNNETS
-#  Nutrient-Commercial- a1None-sterile water    -10.3876623 -18.909319 -1.866006 0.00745 ** 
-#  Nutrient-NF- a1None-sterile water            -12.2398601 -20.904530 -3.575191 0.00109 ** 
-#  Nutrient-PSB- a1None-sterile water           -13.8007576 -22.629348 -4.972168 0.00019 ***
-#  Nutrient-PSB_NF- a1None-sterile water        -15.3590909 -24.187681 -6.530501 2.2e-05 ***
-#  Nutrient-sterile water- a1None-sterile water -17.7674242 -26.596014 -8.938834 7.3e-07 ***
-
-##basically nutrient stress significantly reduced photosynthetic activity
-
-
-DunnettTest(ben_dat$spad, ben_dat$inoculant) #no significance
-DunnettTest(ben_dat$tot_biomass, ben_dat$treatment) #no significance
-DunnettTest(ben_dat$tot_biomass, ben_dat$inoculant) #ns
-
-DunnettTest(ben_dat$ag_biomass, ben_dat$treatment)
-
-#ABOVEGROUND BIOMASS DUNNETS
-#  Drought-PSB- a1None-sterile water            -0.02493125 -0.04753285 -0.002329646 0.0216 *  
-#  Drought-PSB_NF- a1None-sterile water         -0.02488235 -0.04713887 -0.002625832 0.0190 *  
-#  Drought-sterile water- a1None-sterile water  -0.02644118 -0.04869770 -0.004184656 0.0102 *  
-
-#Drought-Lalrise and Drought-NF were not significantly different from Nostress-sterile water
-
-
-DunnettTest(ben_dat$ag_biomass, ben_dat$inoculant) #ns
-DunnettTest(ben_dat$bg_biomass, ben_dat$treatment) #ns
-DunnettTest(ben_dat$bg_biomass, ben_dat$inoculant) #ns
 
 
 ##subsetting the data with just lalrise and water
@@ -1043,115 +771,18 @@ nl<-ggplot(no_lalrise, aes(x=inoculant, y = spad, fill = stress)) +
 
 
 
-##subsetting the data with just nf and water
-nfb<-subset(ben_dat, inoculant == "NF")
-water<-subset(ben_dat, inoculant == "a1water")
-
-subn_dat<-rbind(nfb, water)
-
-subn_mod<-lm(spad ~ treatment + exp_rep, subn_dat)
-
-Anova(subn_mod) #stress:inoculant p = 0.04
-tuk1<-HSD.test(subn_mod, "treatment")
-'''
-a1None-sterile water   39.00909      a
-Drought-sterile water  35.78333      a
-Drought-NF             35.60000     ab
-None-NF                35.52500     ab
-Nutrient-NF            26.76923     bc
-Nutrient-sterile water 21.24167      c
-'''
-
-
-tuk2<-LSD.test(subn_mod, "treatment")
-
-'''
-                           spad groups
-a1None-sterile water   39.00909      a
-Drought-sterile water  35.78333      a
-Drought-NF             35.60000      a
-None-NF                35.52500      a
-Nutrient-NF            26.76923      b
-Nutrient-sterile water 21.24167      c
-'''
-
-
-sub_spad<-ggplot(subn_dat, aes(x=inoculant, y = spad, fill = stress)) +
-  geom_boxplot() +
-  theme_classic() +
-  scale_x_discrete(labels = c("Sterile water", "NFB")) +
-  xlab("") +
-  ylab("SPAD")
-
-
-subnt_mod<-lm(tot_biomass ~ stress*inoculant + exp_rep, subn_dat)
-Anova(subnt_mod) #stress p = 0.003
-
-subna_mod<-lm(ag_biomass ~ stress*inoculant + exp_rep, subn_dat)
-Anova(subna_mod) #stress p < 0.001
-
-subnb_mod<-lm(bg_biomass ~ stress*inoculant + exp_rep, subn_dat)
-Anova(subnb_mod) #exp_rep p = 0.02
 
 
 
 
 
-##subsetting the data with just psb and water
-psb<-subset(ben_dat, inoculant == "PSB")
-water<-subset(ben_dat, inoculant == "a1water")
-
-subp_dat<-rbind(psb, water)
-
-subp_mod<-lm(spad ~ stress*inoculant + exp_rep, subp_dat)
-
-Anova(subp_mod) #stress:inoculant p = NS
-tuk<-HSD.test(subn_mod, "treatment")
-
-sub_spad<-ggplot(subp_dat, aes(x=inoculant, y = spad, fill = stress)) +
-  geom_boxplot() +
-  theme_classic() 
-
-
-subpt_mod<-lm(tot_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpt_mod) #stress p < 0.001
-subpa_mod<-lm(ag_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpa_mod) #stress p < 0.001
-
-subpb_mod<-lm(bg_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpb_mod) #exp_rep p = 0.02
 
 
 
 
-##subsetting the data with just combination treatment and water
-combo<-subset(ben_dat, inoculant == "PSB_NF")
-water<-subset(ben_dat, inoculant == "a1water")
-
-combo_dat<-rbind(combo, water)
-
-subcombo_mod<-lm(spad ~ stress*inoculant + exp_rep, combo_dat)
-
-Anova(subcombo_mod) #stress:inoculant p = NS
-tuk<-LSD.test(subcombo_mod, "treatment")
-
-sub_spad<-ggplot(combo_dat, aes(x=inoculant, y = spad, fill = stress)) +
-  geom_boxplot() +
-  theme_classic() 
-
-
-subpt_mod<-lm(tot_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpt_mod) #stress p < 0.001
-subpa_mod<-lm(ag_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpa_mod) #stress p < 0.001
-
-subpb_mod<-lm(bg_biomass ~ stress*inoculant + exp_rep, subp_dat)
-Anova(subpb_mod) #exp_rep p = 0.02
 
 
 
-x<-3*2
-x
 
 
 
