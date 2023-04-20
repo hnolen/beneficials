@@ -1,0 +1,151 @@
+﻿exp_rep,exp_unit,treatment,stress,inoculant,rep,spad,spad_bl_adj
+1,2,Drought-Commercial,drought,Lalrise,1,24.5,26.91
+1,5,Drought-sterile water,drought,a1water,1,33.2,35.61
+1,7,None-Commercial,none,Lalrise,1,39.4,41.81
+1,8,Drought-NF,drought,NF,1,34.1,36.51
+1,11,Drought-PSB_NF,drought,PSB_NF,1,24.3,26.71
+1,12,a1None-sterile water,none,a1water,2,33.5,35.91
+1,13,None-PSB_NF,none,PSB_NF,1,34.1,36.51
+1,14,Nutrient-Commercial,nutrient,Lalrise,1,29.5,31.91
+1,15,Nutrient-NF,nutrient,NF,3,29.3,31.71
+1,16,None-PSB_NF,none,PSB_NF,2,30.2,32.61
+1,17,None-NF,none,NF,1,33.1,35.51
+1,18,a1None-sterile water,none,a1water,3,39.6,42.01
+1,21,a1None-sterile water,none,a1water,4,36.4,38.81
+1,22,None-PSB_NF,none,PSB_NF,3,32.1,34.51
+1,23,Drought-NF,drought,NF,2,35.8,38.21
+1,24,Drought-NF,drought,NF,3,36.4,38.81
+1,26,None-Commercial,none,Lalrise,2,44.3,46.71
+1,27,None-Commercial,none,Lalrise,3,38.9,41.31
+1,29,Nutrient-PSB,nutrient,PSB,2,20.7,23.11
+1,32,Nutrient-PSB_NF,nutrient,PSB_NF,3,12.4,14.81
+1,34,Drought-sterile water,drought,a1water,2,33.2,35.61
+1,35,Drought-PSB_NF,drought,PSB_NF,2,39.9,42.31
+1,38,Nutrient-sterile water,nutrient,a1water,2,23.3,25.71
+1,39,Nutrient-PSB_NF,nutrient,PSB_NF,4,29.4,31.81
+1,40,Drought-sterile water,drought,a1water,3,26.8,29.21
+1,41,a1None-sterile water,none,a1water,6,35.1,37.51
+1,42,Drought-NF,drought,NF,5,36.1,38.51
+1,43,None-NF,none,NF,3,40.8,43.21
+1,44,None-PSB,none,PSB,1,40.9,43.31
+1,45,Nutrient-sterile water,nutrient,a1water,3,10.4,12.81
+1,46,Nutrient-sterile water,nutrient,a1water,4,16.7,19.11
+1,47,Drought-PSB,drought,PSB,3,34.4,36.81
+1,50,None-PSB,none,PSB,2,37.8,40.21
+1,51,None-PSB,none,PSB,3,33.2,35.61
+1,52,Drought-sterile water,drought,a1water,4,40.8,43.21
+1,54,Nutrient-NF,nutrient,NF,5,29.3,31.71
+1,56,None-PSB_NF,none,PSB_NF,4,35.2,37.61
+1,57,Nutrient-PSB_NF,nutrient,PSB_NF,5,7,9.41
+1,58,Nutrient-PSB,nutrient,PSB,3,18.9,21.31
+1,59,Nutrient-PSB,nutrient,PSB,4,13.3,15.71
+1,60,Drought-Commercial,drought,Lalrise,4,22.3,24.71
+1,61,Drought-Commercial,drought,Lalrise,5,45.7,48.11
+1,64,None-NF,none,NF,4,34.4,36.81
+1,66,None-PSB_NF,none,PSB_NF,5,29.5,31.91
+1,67,Nutrient-Commercial,nutrient,Lalrise,4,12.4,14.81
+1,69,None-PSB,none,PSB,4,34.9,37.31
+1,71,None-PSB_NF,none,PSB_NF,6,37.7,40.11
+1,75,Nutrient-sterile water,nutrient,a1water,6,18.3,20.71
+1,76,None-PSB,none,PSB,5,29.1,31.51
+1,77,None-Commercial,none,Lalrise,4,28.9,31.31
+1,79,None-PSB,none,PSB,6,36.3,38.71
+1,80,None-NF,none,NF,5,26.3,28.71
+1,83,None-Commercial,none,Lalrise,6,26.8,29.21
+1,84,Drought-PSB_NF,drought,PSB_NF,5,30.1,32.51
+1,85,Nutrient-Commercial,nutrient,Lalrise,6,22.4,24.81
+1,87,Nutrient-PSB_NF,nutrient,PSB_NF,6,12.4,14.81
+1,88,None-NF,none,NF,6,28.8,31.21
+2,1,a1None-sterile water,none,a1water,1,32.2,31.29
+2,12,Nutrient-sterile water,nutrient,a1water,1,25.5,24.59
+2,14,Nutrient-NF,nutrient,NF,1,28.6,27.69
+2,16,Nutrient-sterile water,nutrient,a1water,2,25.6,24.69
+2,18,Nutrient-NF,nutrient,NF,3,23.7,22.79
+2,19,Nutrient-PSB_NF,nutrient,PSB_NF,2,37.1,36.19
+2,22,None-PSB_NF,none,PSB_NF,1,28.7,27.79
+2,27,None-PSB_NF,none,PSB_NF,2,45,44.09
+2,28,Drought-PSB,drought,PSB,2,37.1,36.19
+2,31,Nutrient-NF,nutrient,NF,4,27.9,26.99
+2,33,Drought-sterile water,drought,a1water,2,40.7,39.79
+2,34,Nutrient-PSB,nutrient,PSB,3,28.7,27.79
+2,35,Drought-PSB,drought,PSB,3,37.7,36.79
+2,37,None-PSB_NF,none,PSB_NF,3,54.4,53.49
+2,38,Nutrient-PSB_NF,nutrient,PSB_NF,3,21.7,20.79
+2,40,None-PSB,none,PSB,2,33,32.09
+2,41,None-PSB,none,PSB,3,46.7,45.79
+2,44,Nutrient-Commercial,nutrient,Lalrise,2,17.6,16.69
+2,45,None-NF,none,NF,2,39.3,38.39
+2,46,Nutrient-Commercial,nutrient,Lalrise,3,18.5,17.59
+2,49,None-PSB,none,PSB,5,45.3,44.39
+2,50,None-Commercial,none,Lalrise,5,32.6,31.69
+2,51,Nutrient-PSB,nutrient,PSB,4,18.4,17.49
+2,53,Nutrient-sterile water,nutrient,a1water,4,25.8,24.89
+2,54,Nutrient-Commercial,nutrient,Lalrise,4,31.2,30.29
+2,55,Nutrient-NF,nutrient,NF,5,30,29.09
+2,57,Nutrient-Commercial,nutrient,Lalrise,5,30.5,29.59
+2,60,Drought-sterile water,drought,a1water,4,40,39.09
+2,68,a1None-sterile water,none,a1water,3,38.5,37.59
+2,69,Nutrient-PSB_NF,nutrient,PSB_NF,6,23.1,22.19
+2,70,None-PSB,none,PSB,6,34.4,33.49
+2,72,None-PSB_NF,none,PSB_NF,6,42.6,41.69
+2,73,None-NF,none,NF,5,51.5,50.59
+2,74,Nutrient-PSB,nutrient,PSB,5,17.9,16.99
+2,75,Drought-PSB_NF,drought,PSB_NF,6,40.6,39.69
+2,76,a1None-sterile water,none,a1water,4,43,42.09
+2,83,Nutrient-NF,nutrient,NF,6,32.4,31.49
+2,85,Nutrient-Commercial,nutrient,Lalrise,6,33.2,32.29
+2,87,None-Commercial,none,Lalrise,6,40.2,39.29
+2,89,Nutrient-sterile water,nutrient,a1water,6,26.4,25.49
+2,90,Nutrient-PSB,nutrient,PSB,6,25.4,24.49
+3,2,Nutrient-Commercial,nutrient,Lalrise,1,32.9,31.03
+3,5,None-Commercial,none,Lalrise,1,28.6,26.73
+3,7,Nutrient-Commercial,nutrient,Lalrise,2,37.7,35.83
+3,10,Nutrient-PSB,nutrient,PSB,1,30.3,28.43
+3,12,Nutrient-NF,nutrient,NF,1,25.9,24.03
+3,13,Nutrient-NF,nutrient,NF,2,32.9,31.03
+3,14,Nutrient-NF,nutrient,NF,3,26.1,24.23
+3,15,None-PSB,none,PSB,1,31.5,29.63
+3,18,Nutrient-PSB_NF,nutrient,PSB_NF,1,43.2,41.33
+3,19,None-NF,none,NF,2,30.1,28.23
+3,24,None-NF,none,NF,3,44.7,42.83
+3,26,Nutrient-Commercial,nutrient,Lalrise,3,30.1,28.23
+3,27,Nutrient-sterile water,nutrient,a1water,1,26,24.13
+3,29,Drought-PSB,drought,PSB,4,44.8,42.93
+3,30,None-Commercial,none,Lalrise,4,33.5,31.63
+3,32,a1None-sterile water,none,a1water,2,45.4,43.53
+3,33,a1None-sterile water,none,a1water,3,40.9,39.03
+3,34,Nutrient-NF,nutrient,NF,4,19.4,17.53
+3,35,None-PSB,none,PSB,2,29.7,27.83
+3,37,Nutrient-sterile water,nutrient,a1water,2,14.3,12.43
+3,42,None-PSB,none,PSB,3,45.6,43.73
+3,43,Nutrient-PSB,nutrient,PSB,3,28.9,27.03
+3,44,Nutrient-PSB_NF,nutrient,PSB_NF,2,20.2,18.33
+3,45,a1None-sterile water,none,a1water,4,36.3,34.43
+3,46,None-Commercial,none,Lalrise,5,47.1,45.23
+3,48,Nutrient-PSB,nutrient,PSB,4,23.9,22.03
+3,49,Nutrient-sterile water,nutrient,a1water,3,23.6,21.73
+3,50,Nutrient-PSB,nutrient,PSB,5,48.1,46.23
+3,51,None-NF,none,NF,4,24.7,22.83
+3,52,Nutrient-PSB_NF,nutrient,PSB_NF,3,24.4,22.53
+3,54,Nutrient-PSB,nutrient,PSB,6,28,26.13
+3,55,None-PSB_NF,none,PSB_NF,2,34.9,33.03
+3,56,Nutrient-PSB_NF,nutrient,PSB_NF,4,20.1,18.23
+3,59,None-PSB,none,PSB,4,42.7,40.83
+3,60,None-PSB_NF,none,PSB_NF,3,35.3,33.43
+3,62,Nutrient-NF,nutrient,NF,5,19.7,17.83
+3,63,Nutrient-Commercial,nutrient,Lalrise,4,35.4,33.53
+3,64,None-PSB,none,PSB,5,50.9,49.03
+3,65,a1None-sterile water,none,a1water,6,48.2,46.33
+3,66,None-NF,none,NF,5,44.8,42.93
+3,67,Nutrient-sterile water,nutrient,a1water,4,19,17.13
+3,68,Nutrient-NF,nutrient,NF,6,22.8,20.93
+3,69,None-NF,none,NF,6,27.8,25.93
+3,70,Nutrient-PSB_NF,nutrient,PSB_NF,6,32.8,30.93
+3,72,Nutrient-Commercial,nutrient,Lalrise,5,36.4,34.53
+3,74,None-PSB,none,PSB,6,39.3,37.43
+3,75,Nutrient-Commercial,nutrient,Lalrise,6,32.9,31.03
+3,76,None-Commercial,none,Lalrise,6,45,43.13
+3,79,None-PSB_NF,none,PSB_NF,4,43.7,41.83
+3,81,None-PSB_NF,none,PSB_NF,5,48.5,46.63
+3,85,Drought-PSB_NF,drought,PSB_NF,6,38,36.13
+3,88,None-PSB_NF,none,PSB_NF,6,48.5,46.63
